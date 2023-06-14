@@ -25,10 +25,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <ClientOnly>
-         <Modal isOpen/>
+         <Modal title='Hello World' isOpen/>
         <Navbar/>
         </ClientOnly>
-        {children}</body>
+        <div className="pb-20 pt-28">
+          
+        {children}
+        </div>
+        </body>
     </html>
   )
 }
