@@ -5,6 +5,7 @@ import Navbar from "./components/navbar/Navbar"
 import "./globals.css"
 import ClientOnly from "./components/ClientOnly"
 import Modal from "./components/modals/Modal"
+import RegisterModal from "./components/modals/RegisterModal"
 
 export const metadata = {
   title: 'Woodly',
@@ -25,13 +26,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <ClientOnly>
-         <Modal title='Hello World' isOpen/>
+         <RegisterModal/>
         <Navbar/>
         </ClientOnly>
         <div className="pb-20 pt-28">
           
         {children}
-        </div>
+        </div> 
         </body>
     </html>
   )
