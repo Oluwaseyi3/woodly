@@ -1,6 +1,6 @@
-import React from 'react'
+"use client"
 import {FcGoogle} from "react-icons/fc"
-import {useCallback, useState} from "react"
+import React , {useCallback, useState} from "react"
 import {
     FieldValues,
     SubmitHandler,
@@ -10,6 +10,8 @@ import {
 import useRegisterModal from '../hooks/useRegisterModal'
 import axios from 'axios'
 import Modal from './Modal'
+import Heading from "../Heading"
+import Input from "../inputs/Input"
 
 const RegisterModal = () => {
     const registerModal = useRegisterModal()
@@ -40,6 +42,17 @@ const RegisterModal = () => {
             setIsLoading(false)
         })
     }
+
+
+    const bodyContent = (
+        <div className="flex flex-col gap-4">
+            <Heading
+             title="Welcome to Airbnb"
+             subtitle="Create an account"
+            />
+            <Input/>
+        </div>
+    )
   return (
      <Modal
       disabled={isLoading}
@@ -48,6 +61,7 @@ const RegisterModal = () => {
       actionLabel='Continue'
       onClose={registerModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
+      body={bodyContent}
      />
   )
 }
