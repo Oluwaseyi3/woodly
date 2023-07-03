@@ -91,6 +91,19 @@ const RegisterModal = () => {
             icon={FcGoogle}
             onClick={() => {}}
             />
+
+            <div 
+             onClick={registerModal.onClose}
+            className="text-neutral-500 text-center mt-4 font-light">
+                <div className="flex flex-row itesm-center gap-2 justify-center">
+                    <div>
+                        Already have an account
+                    </div>
+                    <div>
+                       Log In
+                    </div>
+                </div>
+            </div>
         </div>
     )
   return (
