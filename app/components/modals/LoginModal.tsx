@@ -1,5 +1,6 @@
 "use client"
 import {FcGoogle} from "react-icons/fc"
+import {signIn} from "next-auth/react"
 import React , {useCallback, useState} from "react"
 import {
     FieldValues,
@@ -7,7 +8,7 @@ import {
     useForm
 } from "react-hook-form"
 
-import useRegisterModal from '../hooks/useRegisterModal'
+import useLoginModal from '../hooks/useLoginModal'
 import axios from 'axios'
 import Modal from './Modal'
 import Heading from "../Heading"
@@ -15,12 +16,14 @@ import Input from "../inputs/Input"
 import {toast} from "react-hot-toast"
 import Button from "../Button"
 import { useController } from 'react-hook-form'
+import { useRouter } from "next/navigation"
 
 
 
 
-const RegisterModal = () => {
-    const registerModal = useRegisterModal()
+const LoginModal = () => {
+    const loginModal = useLoginModal()
+    const router = useRouter()
     const [isLoading, setIsLoading] = useState(false)
    
     const {
@@ -29,7 +32,6 @@ const RegisterModal = () => {
         },
     } = useForm<FieldValues>({
         defaultValues: {
-            name: '',
             email: '',
             password: ''
         }
@@ -38,13 +40,19 @@ const RegisterModal = () => {
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true)
-        axios.post("/api/register", data)
-        .then(() => {
-           registerModal.onClose() 
-        }).catch((error) => {
-           toast.error("Something happened")
-        }).finally(() => {
+    
+        signIn("credentials", {
+            ...data, redirect: false
+        }).then((callback) => {
             setIsLoading(false)
+            if (callback?.ok && !callback?.error) {
+                toast.success('Logged in');
+                router.refresh();
+                loginModal.onClose();
+        }
+        if (callback?.error) {
+                toast.error(callback.error);
+        }
         })
     }
 
@@ -52,8 +60,8 @@ const RegisterModal = () => {
     const bodyContent = (
         <div className="flex flex-col gap-4">
             <Heading
-             title="Welcome to Woodly"
-             subtitle="Create an account"
+             title="Welcome back"
+             subtitle="Login to your account"
             />
             <Input
              id="email"
@@ -73,15 +81,6 @@ const RegisterModal = () => {
              required
             />
 
-            <Input
-             id="password"
-             label="password"
-             type="password"
-             disabled={isLoading}
-             register={register}
-             errors={errors}
-             required
-            />
         </div>
     )
 
@@ -96,7 +95,7 @@ const RegisterModal = () => {
             />
 
             <div 
-             onClick={registerModal.onClose}
+             onClick={loginModal.onClose}
             className="text-neutral-500 text-center mt-4 font-light">
                 <div className="flex flex-row itesm-center gap-2 justify-center">
                     <div>
@@ -112,10 +111,10 @@ const RegisterModal = () => {
   return (
      <Modal
       disabled={isLoading}
-      isOpen={registerModal.isOpen}
-      title='Register'
+      isOpen={loginModal.isOpen}
+      title='Login '
       actionLabel='Continue'
-      onClose={registerModal.onClose}
+      onClose={loginModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
@@ -123,4 +122,4 @@ const RegisterModal = () => {
   )
 }
 
-export default RegisterModal
+export default LoginModal

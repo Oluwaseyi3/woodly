@@ -6,6 +6,7 @@ import "./globals.css"
 import ClientOnly from "./components/ClientOnly"
 import Modal from "./components/modals/Modal"
 import RegisterModal from "./components/modals/RegisterModal"
+import LoginModal from "./components/modals/LoginModal"
 import ToasterProvider from "./providers/ToasterProvider"
 
 export const metadata = {
@@ -29,6 +30,7 @@ export default function RootLayout({
         <ClientOnly>
           <ToasterProvider/>
          <RegisterModal/>
+         <LoginModal/>
         <Navbar/>
         </ClientOnly>
         <div className="pb-20 pt-28">
