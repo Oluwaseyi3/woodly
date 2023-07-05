@@ -8,6 +8,8 @@ import Modal from "./components/modals/Modal"
 import RegisterModal from "./components/modals/RegisterModal"
 import LoginModal from "./components/modals/LoginModal"
 import ToasterProvider from "./providers/ToasterProvider"
+import getCurrentUsers from "./actions/getCurrentUser"
+
 
 export const metadata = {
   title: 'Woodly',
@@ -15,15 +17,17 @@ export const metadata = {
 }
 
 const font = Montserrat({
-  subsets: ["latin"],
+  subsets: ["latin"], 
   weight: "400"
 })
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+
+  const currentUser = await getCurrentUsers()
   return (
     <html lang="en">
       <body className={font.className}>
@@ -31,7 +35,7 @@ export default function RootLayout({
           <ToasterProvider/>
          <RegisterModal/>
          <LoginModal/>
-        <Navbar/>
+        <Navbar currentUser={currentUser}/>
         </ClientOnly>
         <div className="pb-20 pt-28">
           

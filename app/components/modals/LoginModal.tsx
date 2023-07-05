@@ -72,9 +72,11 @@ const LoginModal = () => {
              required
             />
 
+           
             <Input
-             id="name"
-             label="Name"
+             id="password"
+             label="password"
+             type="password"
              disabled={isLoading}
              register={register}
              errors={errors}
