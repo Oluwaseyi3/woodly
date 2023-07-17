@@ -7,6 +7,7 @@ import { IconType } from 'react-icons'
 import qs from "query-string"
 
 
+
 interface CategoryBoxProps {
   icon: IconType;
   label: string;
@@ -26,17 +27,30 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
 
        if (params) {
         currentQuery = qs.parse(params.toString())
-
-        const updatedQuery: any = {
-          ...currentQuery, category: label  
-        }
        }
+
+      
+       const updatedQuery: any = {
+        ...currentQuery, category: label  
+      }
+
+      if (params?.get('category') === label) {
+         delete updatedQuery.category;
+      }
+
+      const url = qs.stringifyUrl({
+        url: '/',
+        query: updatedQuery
+      }, {skipNull : true})
+
+      router.push(url)
      },
-     [],
+     [label, params, router],
    )
    
   return (
     <div
+     onClick={handleClick}
      className={`flex flex-col items-center gap-2 p-3
      border-b-2 hover:text-neutral-800 transition   ${selected ? "border-b-neutral" : "border-tranparent"}
      ${selected ? "text-neutral-800" : "text-neutral-500"}

@@ -10,6 +10,7 @@ const Logo = () => {
          height="50"
          width="100"
          src="/images/wood.png"
+         onClick={() => router.push('/')}
         />
     );
 }

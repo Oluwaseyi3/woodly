@@ -17,12 +17,14 @@ import {toast} from "react-hot-toast"
 import Button from "../Button"
 import { useController } from 'react-hook-form'
 import { useRouter } from "next/navigation"
-
+import useRegisterModal from "../hooks/useRegisterModal"
 
 
 
 const LoginModal = () => {
     const loginModal = useLoginModal()
+
+    const registerModal = useRegisterModal()
     const router = useRouter()
     const [isLoading, setIsLoading] = useState(false)
    
@@ -37,6 +39,11 @@ const LoginModal = () => {
         }
     })
 
+    const toggle = useCallback(() => {
+        loginModal.onClose()
+        registerModal.onOpen()
+      },[loginModal, registerModal],
+    )
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true)
@@ -54,7 +61,11 @@ const LoginModal = () => {
                 toast.error(callback.error);
         }
         })
+
     }
+
+   
+    
 
 
     const bodyContent = (
@@ -101,10 +112,16 @@ const LoginModal = () => {
             className="text-neutral-500 text-center mt-4 font-light">
                 <div className="flex flex-row itesm-center gap-2 justify-center">
                     <div>
-                        Already have an account
+                       First time using Woodly?
                     </div>
-                    <div>
-                       Log In
+                    <div
+                     onClick={toggle}
+                     className="text-neutral-800
+                     cursor-pointer
+                     hover:underline
+                     "
+                    >
+                      Create an account
                     </div>
                 </div>
             </div>

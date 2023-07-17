@@ -16,14 +16,14 @@ import {toast} from "react-hot-toast"
 import Button from "../Button"
 import { signIn } from "next-auth/react"
 import { useController } from 'react-hook-form'
-
+import useLoginModal from '../hooks/useLoginModal'
 
 
 
 const RegisterModal = () => {
     const registerModal = useRegisterModal()
     const [isLoading, setIsLoading] = useState(false)
-   
+    const loginModal = useLoginModal()
     const {
         register, handleSubmit, formState: {
             errors
@@ -35,6 +35,12 @@ const RegisterModal = () => {
             password: ''
         }
     })
+
+    const toggle = useCallback(() => {
+        loginModal.onClose()
+        registerModal.onOpen()
+      },[loginModal, registerModal],
+    )
 
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
